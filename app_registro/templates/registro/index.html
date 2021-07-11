@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Inicio
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold">Bienvenid@, {{ request.user.cliente }} ({{ request.user|default_if_none:'Usuario no asignado' }})</h2>
+            <h4>{{ request.user.cliente.correo }}</h4>
+            <h6><strong>Dirección</strong><br> {{ request.user.cliente.direccion }}<br>{{ request.user.cliente.telefono|default_if_none:'' }}s</h6>
+            <h4 class="mt-5 fw-bold">Directorio rápido</h4>
+            <a class="nav-link" href="{% url 'registro:transacciones'  %}">Consultar mis transacciones</a>
+            <a class="nav-link" href="{% url 'registro:transferencias' %}">Realizar transacciones a otras cuentas</a>
+        </div>
+         <div class="col-6">
+            <lord-icon
+                src="https://cdn.lordicon.com/jqeuwnmb.json"
+                trigger="loop"
+                colors="primary:#121331,secondary:#ff8a50"
+                stroke="30"
+                style="width:100%;height:100%">
+            </lord-icon>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block js %}
+{% endblock  %}

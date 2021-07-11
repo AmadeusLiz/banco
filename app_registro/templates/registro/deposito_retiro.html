@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DEPOSITOS Y RETIROS
+{% endblock %}
+
+{% comment %} biaaa1501
+gnaxx3
+omayma_khalifa
+lolanovakk
+martiina_mauro
+nathu_37
+van_essa_bre
+pina_27
+ {% endcomment %}
+{% block container %}
+    {% if user.is_superuser %}
+        {% if accion != "invalid" %}
+            <h1 class="fw-bold" style="color: #FB743E">{{accion|upper}}</h1>
+            <div class="row">
+                {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{%else%}success{% endif %} mb-2">
+                            {{ message|safe }}  
+                        </div>
+                        {% endfor %}
+                {% endif %}
+                <div class="col-7 mt-4">
+                    <h2 class="fw-bold">{{ data.cliente }} ({{ data.cliente.user|default_if_none:'Usuario no asignado' }})</h2>
+                    <h4>{{ data.cliente.correo }}</h4>
+                    <h6><strong>Dirección</strong><br> {{ data.cliente.direccion }}</h6>
+                    <h6> {{ data.cliente.telefono|default_if_none:'' }}</h6>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/rgyftmhc.json"
+                        trigger="loop"
+                        colors="primary:#121331,secondary:#ff8a50"
+                        style="width:60%;height:60%">
+                    </lord-icon>
+                </div>
+                <div class="col-5 mt-4">
+                    <h3><strong>Saldo Actual</strong> {{ data.saldo }} LPS</h3>
+                    {% comment %} action =  {% endcomment %}
+                    <form action={% url "registro:"|add:accion data.id %} method="POST"> {% comment %} https://stackoverflow.com/questions/36911927/dynamic-url-with-variable-django-template {% endcomment %}
+                        {% csrf_token %}
+                        <div class="mt-5">
+                            <label class="mb-3 fw-bold" for="monto">CANTIDAD A {{ accion|upper }}</label>
+                            <input type="number" name="monto" id="monto" class="form-control" min="1" step="any" required autofocus> 
+                            {% comment %} https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min {% endcomment %}
+                        </div>
+
+                        <div class="mt-4">
+                            <input type="submit" class="btn btn-block text-white" style="background-color: #ff8a50" value={{accion|upper}} onclick="if (!confirm('¿Desea {{accion}} el monto digitado?')) return false;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% else %} 
+            <div class="text-center">
+                <h1 class="text-danger fw-bold">ACCIÓN INVÁLIDA</h1>
+                <lord-icon
+                    src="https://cdn.lordicon.com/tdrtiskw.json"
+                    trigger="loop"
+                    colors="primary:#121331,secondary:#ff8a50"
+                    style="width:50%;height:50%">
+                </lord-icon>
+            </div>
+        {% endif %} 
+    {% else %}
+        <div class="text-center">
+            <h1 class="text-danger fw-bold">NO TIENES ACCESO A ESTA PÁGINA</h1>
+            <lord-icon
+                src="https://cdn.lordicon.com/tdrtiskw.json"
+                trigger="loop"
+                colors="primary:#121331,secondary:#ff8a50"
+                style="width:50%;height:50%">
+            </lord-icon>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $(function () {
+        setTimeout(() => {
+            $('.alert').slideUp(function () {
+                $(this).remove();
+            });
+        }, 3000)
+
+    });
+</script>
+{% endblock  %}

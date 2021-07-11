@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="{% static 'registro/bootstrap/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link href="{% static 'registro/css/all.css' %}" rel="stylesheet" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ff8a50">
+            <div class="container">
+                {% if not user.is_superuser %} 
+                    <a class="navbar-brand" href="/inicio">Inicio</a>
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse text-white" id="navbarNav">
+                    <div class="navbar-nav">
+                            <!--https://stackoverflow.com/questions/1404160/allowing-only-super-user-login-->
+                            {% if user.is_superuser %} 
+                                <a class="nav-link {% if activo == 'superuser' %} active {% endif %}">Super Usuario</a>
+                                <a class="nav-link {% if activo == 'clientes' %} active {% endif %}" href="{% url 'registro:clientes' %}">Clientes</a>
+                            {% else %}
+                                <a class="nav-link {% if activo == 'transacciones' %} active {% endif %}" href="{% url 'registro:transacciones' %}">Mis transacciones</a>
+                                <a class="nav-link {% if activo == 'transferencias' %} active {% endif %}" href="{% url 'registro:transferencias' %}">Transferencias</a>
+                            {% endif %}
+                            <a class="nav-link text-white" href="{% url 'logout_view' %}">{{ request.user.cliente }}</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5">
+            {% block container %}{% endblock %}
+        </div>
+        <script src="{% static 'registro/js/jquery.min.js' %}"></script> 
+        <script src="{% static 'registro/bootstrap/bootstrap.bundle.min.js' %}" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>
