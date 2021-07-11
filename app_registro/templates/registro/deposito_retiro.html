@@ -4,15 +4,6 @@
     DEPOSITOS Y RETIROS
 {% endblock %}
 
-{% comment %} biaaa1501
-gnaxx3
-omayma_khalifa
-lolanovakk
-martiina_mauro
-nathu_37
-van_essa_bre
-pina_27
- {% endcomment %}
 {% block container %}
     {% if user.is_superuser %}
         {% if accion != "invalid" %}
@@ -39,7 +30,6 @@ pina_27
                 </div>
                 <div class="col-5 mt-4">
                     <h3><strong>Saldo Actual</strong> {{ data.saldo }} LPS</h3>
-                    {% comment %} action =  {% endcomment %}
                     <form action={% url "registro:"|add:accion data.id %} method="POST"> {% comment %} https://stackoverflow.com/questions/36911927/dynamic-url-with-variable-django-template {% endcomment %}
                         {% csrf_token %}
                         <div class="mt-5">
